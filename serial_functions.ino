@@ -33,9 +33,6 @@ void settingscommandinit(void) {
 
 void commandinit(void) {
   //Status command list
-
-
-
   SCmd.addCommand(P("LockStatus?"), cmdLockStatus); //Charge cable lock in socket status and control
   SCmd.addCommand(P("VehicleStatus?"), cmdVehicleStatus); //Read the connection status of the electric vehicle
   SCmd.addCommand(P("RelayStatus?"), cmdRelayState); //Main power relay status and control
@@ -44,7 +41,6 @@ void commandinit(void) {
   SCmd.addCommand(P("EnclosureStatus?"), cmdEnclosureStatus); //Intrusion detect sensor status
 
     //Commands command list
-
   SCmd.addCommand(P("EmergencyStop"), cmdEmergencyStop); //Command peripheral controller to go to a safe state immediatelywhen an unsafe situation is detected by Linux application,
   SCmd.addCommand(P("Unlock"), cmdUnlock); //Charge cable explicit unlock control
   SCmd.addCommand(P("ChargeStart"), cmdChargeStart); //Enable charging of the verhicle
@@ -85,9 +81,6 @@ void cmdAccepted(void) {
   answer = 'a';
 }
 
-/*void cmdError(void) {
- answer = 'e';
- }*/
 /////////////////////////////////Status functions//////////////////////////////////////////////////////
 void cmdVersion(void) {
   strMOD = "=";
@@ -258,7 +251,7 @@ void cmdSmartCurrentMax(void) { //Set the (dynamical) maximum allowable current 
   int oldSmartCurrentMax = SmartCurrentMax;
   int newSmartCurrentMax = atoi(SCmd.next());
 
-  if((newSmartCurrentMax >= AbsoluteMinCurrent) && (newSmartCurrentMax <= AbsoluteCurrentLimit) && (newSmartCurrentMax <= setInstallationCurrent)){ //Check value from 6 till 32 Amps
+  if((newSmartCurrentMax >= 6) && (newSmartCurrentMax <= AbsoluteCurrentLimit) && (newSmartCurrentMax <= setInstallationCurrent)){ //Check value from 6 till 32 Amps
     SmartCurrentMax = newSmartCurrentMax;
     sendMes(PSTR("accepted"));
   }
@@ -386,27 +379,6 @@ void cmdSerialNumber(void) { //Frequency of the supply voltage
   sendMes(PSTR("SerialNumber="), strMOD);
 }
 
-/*
-void cmdTestModbus(void) {  //Power factor (Total, L1,L2,L3)
- Serial.println(F("Show Modbus Stats"));
- Serial.println(F("Packet1: Request, Successful, Failed, ExceptionErrors"));
- Serial.println(packet1->requests);
- Serial.println(packet1->successful_requests);
- Serial.println(packet1->failed_requests);
- Serial.println(packet1->exception_errors);
- Serial.println(F("Packet2: Request, Successful, Failed, ExceptionErrors"));
- Serial.println(packet2->requests);
- Serial.println(packet2->successful_requests);
- Serial.println(packet2->failed_requests);
- Serial.println(packet2->exception_errors);
- Serial.println(F("Packet3: Request, Successful, Failed, ExceptionErrors"));
- Serial.println(packet3->requests);
- Serial.println(packet3->successful_requests);
- Serial.println(packet3->failed_requests);
- Serial.println(packet3->exception_errors);
- //This Function is tested correctly  
- }*/
-
 //////////////////////////////////////////////////////Settings function list//////////////////////////////////////////////////////////
 
 boolean IsInitState(void){
@@ -421,7 +393,6 @@ boolean IsInitState(void){
 
 
 void cmdsetLed(void) { //Sets the LED properties for a spe-cific operational mode
-  //setLed=101,3,0,100,100
   if(IsInitState()){
     char *arg;  
     arg = SCmd.next();
@@ -440,7 +411,6 @@ void cmdsetLed(void) { //Sets the LED properties for a spe-cific operational mod
           LedRArray[setLedIndex] = vars[2];
           LedGArray[setLedIndex] = vars[3];
           LedBArray[setLedIndex] = vars[4];
-
           sendMes(PSTR("accepted"));
         }
       }
@@ -511,10 +481,12 @@ void cmdsetVoltageCheck(void) {//Sets the expected phase voltage to neutral (RMS
 
       if(vars[0]>100 && vars[1] != 0 && vars[2] != 0 && vars[3] > 0 && vars[3] <= 10000){ 
         VoltageRMS = vars[0];
+        VoltagePercHi = vars[1];
+        VoltagePercLo = vars[2];
+        
         VoltageMarginHi = (VoltageRMS * (100+vars[1])) / 100;
         VoltageMarginLo = (VoltageRMS * (100-vars[2])) / 100;
         VoltageSampleperiode = vars[3];
-
         sendMes(PSTR("accepted"));
       }
       else{
@@ -561,7 +533,6 @@ void cmdsetTemperatureLimit(void) {//Sets limits for the temperature check
         setTemperatureLimitLimitHigh = vars[1];
         setTemperatureLimitWarnLow = vars[2];
         setTemperatureLimitWarnHigh = vars[3];
-
         sendMes(PSTR("accepted"));
       }
       else{

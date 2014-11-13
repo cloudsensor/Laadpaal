@@ -44,13 +44,16 @@ char* msg;
 
 boolean ErrorFlagPowerFail = false;
 boolean ErrorFlagOverHeat = false;
-boolean ErrorFlagOutVoltageRange = false;
+boolean ErrorFlagUnderHeat = false;
 boolean ErrorFlagOverCurrent = false;
 boolean ErrorFlagIntrusionDetected = false;
 boolean ErrorFlagTilt = false;
 boolean ErrorFlagMainsACDown = false;
 boolean ErrorFlagInterfaceError = false;
 boolean ErrorFlagLineTestCheck = false;
+boolean ErrorFlagMeterFailure = false;
+boolean ErrorFlagOutUnderVoltage = false;
+boolean ErrorFlagOutOverVoltage = false;
 
 boolean powerOK = true;
 boolean light = false;
@@ -93,7 +96,7 @@ int plow;
 float eastronvoltage = 0;
 int oldfreeRam = 0;
 int tilt=0;
-String strMOD ="abcdefghijklmnopqrstuvwxyz";
+String strMOD; //test to define size of String strMOD
 
 //measure and controll from KwH
 int frequency = 0;
@@ -105,6 +108,10 @@ int CurrentTotal = 0;
 int CurrentL1 = 0; 
 int CurrentL2 = 0;
 int CurrentL3 = 0;
+
+int measuredVoltage;
+
+int ModbusErrorCounter = 0;
 
 unsigned long ms2=0;
 

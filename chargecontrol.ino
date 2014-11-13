@@ -50,7 +50,6 @@ void ChargeControl(void){
               relayOff();
             }
           }
-
         }
         else if((VehicleStatus == 'A' || VehicleStatus == 'B') && relaystate == 1){ // Close relays
           relayOff();
@@ -60,7 +59,6 @@ void ChargeControl(void){
           //Needs testing, wat happens if the car switches to D or E or F ?
           relayOff();
           AtmegaState(StateError);
-
         }
         else{ //Session not started becouse vehicle seems not ready?
           AtmegaState(StateSession);
@@ -105,14 +103,6 @@ void ChargeControl(void){
       else{
         //AtmegaState(StateReserved); 
       }
-
     }
   }
-
-
 }
-
-
-
-
-

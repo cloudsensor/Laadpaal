@@ -72,7 +72,6 @@ void setup() {
 }
 
 void loop() {
-  //PowerFailCheck();
   ErrorControl();
   ChargeControl();
   update_leds(); //update the LEDs

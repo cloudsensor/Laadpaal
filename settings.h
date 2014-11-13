@@ -1,10 +1,9 @@
 //Default settings//
-#define fwVersion "2.82.20141103"
+#define fwVersion "2.85.20141110"
 #define debug 0
 #define RAMWarning 100 //How mutch RAM left to give warning, 0 to disable
 #define AbsoluteCurrentLimit 32 //This systems absolute current limit
 #define DefaultsetInstallationCurrent 6
-#define AbsoluteMinCurrent 6
 
 #define DefaultsetTemperatureLimitLimitLow -20
 #define DefaultsetTemperatureLimitLimitHigh 60
@@ -38,6 +37,8 @@ int setTemperatureLimitLimitHigh = DefaultsetTemperatureLimitLimitHigh;
 int setTemperatureLimitWarnLow = DefaultsetTemperatureLimitWarnLow;
 int setTemperatureLimitWarnHigh = DefaultsetTemperatureLimitWarnHigh;
 int VoltageRMS = DefaultVoltageRMS;
+int VoltagePercHi = 0;
+int VoltagePercLo = 0;
 int VoltageMarginHi = (DefaultVoltageRMS * (100+DefaultVoltageMarginHi)) / 100;
 int VoltageMarginLo = (DefaultVoltageRMS * (100-DefaultVoltageMarginLo)) / 100;
 int VoltageSampleperiode = 1;

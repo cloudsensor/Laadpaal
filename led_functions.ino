@@ -1,9 +1,8 @@
 void update_leds(void){ //update leds function is called every loop
   // NO DELAYS IN THIS FUNCTION ALLOWED
-
   strip.setBrightness(LedIntensity); //set LedIntensity
 
-    if(LedFunctionArray[GetLedIndex(199)]){ //override 
+  if(LedFunctionArray[GetLedIndex(199)]){ //override 
     SetLedTo(199);
   }
   else if(UnsafeSituation){
@@ -25,13 +24,6 @@ void update_leds(void){ //update leds function is called every loop
     else{
       SetLedTo(201);
     }
-    
-    /*if(CableConnected()&& locked()=="LOCKED" ){
-      SetLedTo(303);
-
-      //SetLedTo(302); //to be programmed
-      // SetLedTo(304); //cable invalid to be programmed
-    }*/
     if(!RequestCharge && CableConnected()&& locked()=="UNLOCKED"){
       SetLedTo(303);
     }
@@ -94,6 +86,7 @@ void SetLedTo(int mode){ //setLed = mode, function, R, G, B
     led_color(TheColor,vtc);
   }
 }
+
 int GetLedIndex(int mode){
   int TheLedIndex = 0;
   for (int i=0; i < 22; i++){
@@ -108,7 +101,6 @@ void leds_off(void) {
   for(int i = 0; i < NeoPixelpix; i++)
     strip.setPixelColor(i, 000000);
 }
-
 
 void led_color(uint32_t color, int area) {
 
@@ -170,17 +162,3 @@ void all_flash(uint32_t color, unsigned long duration) {
     for(int i = 0; i < NeoPixelpix; i++)
       strip.setPixelColor(i, 000000);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

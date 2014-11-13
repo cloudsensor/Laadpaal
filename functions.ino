@@ -24,7 +24,7 @@ int AtmegaState(void){
 }
 
 void initBoard(void) {
-  //strMOD.reserve(50);
+  strMOD.reserve(50);
   uint8_t tmp = 1<<JTD; // Disable JTAG  
   MCUCR = tmp; // Disable JTAG
   MCUCR = tmp; // Disable JTAG  
@@ -54,8 +54,6 @@ void initBoard(void) {
   delay(150);
   analogWrite(pilotPin, 255);
   hwVersion = analogRead(hwVersionPin)/hwDevide;
-  
-  addQueue(PSTR("Version"));
 }
 
 void initNeoPixel(void){ //Setup NeoPixel
@@ -91,7 +89,7 @@ void Functions(void){
   else
     delayloop1++;
 
-  //the non fast functions**************************************************
+  //the once in a while functions
   if(delayloop2 > 100){ ////The functions that execute every x loops
     checkfreeRam();
     readTemp();
@@ -328,7 +326,6 @@ void readPilot(void) { //Control Pilot - Communication line used to coordinate c
       plow = reading;
     }
   }
-
 }
 
 
@@ -342,14 +339,6 @@ void readTemp(void) {
   tempfl = analogRead(tempPin)*5/1024.0;
   tempfl = tempfl - 0.5;
   temp = tempfl / 0.01;
-
-  //  if(temp != oldtemp){
-  //    String str = "";
-  //    str += temp;
-  //    sendMes(PSTR("TemperatureStatus="), str);
-  //    oldtemp=temp;
-  //
-  //  }
 }
 
 void readLdr(void){
@@ -412,7 +401,7 @@ String GetState(void){
   int i =0;
   strMOD += atmegastatus;
   strMOD += sep;      
-  if(ErrorFlagOutVoltageRange){
+  if(ErrorFlagOutOverVoltage){
     i += 1;
   }
   if(ErrorFlagOverCurrent){
@@ -433,11 +422,17 @@ String GetState(void){
   if(ErrorFlagInterfaceError){
     i += 64;
   }
+  if(ErrorFlagMeterFailure){
+    i += 128;
+  }
+  if(ErrorFlagOutUnderVoltage){
+    i += 256;
+  }
   strMOD += i;
   return strMOD;
 }
 
-//this is a regular used function, please leave between // in code.
+//this is a regular used function, please leave between /* */ in code.
 void checkfreeRam(){ 
   int RAM = freeRam();
   if(RAM < RAMWarning){
@@ -445,8 +440,6 @@ void checkfreeRam(){
       String str = "=";
       str += RAM;
       addQueue(PSTR("Warning - RAM left: "), str);
-      // Serial.print(F("=> Warning! RAM left: "));
-      //Serial.println(RAM);
       oldfreeRam = RAM;
     }
   }

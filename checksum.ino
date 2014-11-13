@@ -45,12 +45,11 @@ void addQueue(PGM_P s, String str = "") {
 }
 
 void updateQueue(void) {
-  // Geen messages in queue
-  if(msg_no == 0){
+  if(msg_no == 0){   // Geen messages in queue
     answer = ' ';
     return;
   }
-  
+
   if(answer == 'a') { //receifed accepted
     for(int i = 0; i < msg_no - 1; i++)
       msgQueue[i] = msgQueue[i+1];
@@ -60,10 +59,10 @@ void updateQueue(void) {
     answer = ' ';
     return;
   }
- 
-  if((millis() - msg_ms < msg_timeout || (millis() < msg_ms && msg_ms < msg_timeout))) // //millis() - msg_ms < msg_timeout
+
+  if((millis() - msg_ms < msg_timeout) || (millis() < msg_ms && msg_ms > msg_timeout)) // //millis() - msg_ms < msg_timeout //|| (millis() > msg_ms && msg_ms < msg_timeout))
     return;
-  
+
   if(msg_retr < 3) { // resend (no answer yet)
     Serial.println(msgQueue[0]);
     msg_ms = millis();
@@ -105,7 +104,6 @@ void sendMes(PGM_P s, String str = "") {
 
 String printlnCS(char arr[]){
   String str = arr;
-
   int total = 0;   
   for(int i=0; i < str.length(); i++) {
     total = (total + byte(arr[i]));
@@ -123,7 +121,6 @@ String printlnCS(char arr[]){
 
 String addcs(char arr[]){
   String str = arr;
-
   int total = 0;   
   for(int i=0; i < str.length(); i++) {
     total = (total + byte(arr[i]));
@@ -145,5 +142,6 @@ byte CheckSum(byte arr[], int dim_array){
     total = (total + arr[i]);
   return total%256;
 }
+
 
 

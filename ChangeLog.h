@@ -1,4 +1,10 @@
 /*
+2.85
+- Cleaned Code
+- MeterFailure implemented
+
+2.84
+- worked on detection of meterfailure
 
 2.83
 - Github #56 msoverflow fixed
@@ -7,6 +13,7 @@
 2.82
 - implementd new library SerialCommandFCS2
 - Update serial_functions: fl2str
+- Baudrate changed to 9600
 
 2.81
 - Fixed issue #20 checked
